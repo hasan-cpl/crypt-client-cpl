@@ -41,6 +41,13 @@ const Menus = () => {
                     Contact
                 </Link>
 
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="/user/import-token"
+                    tag="a"
+                >
+                    Import Token
+                </Link>
+
 
             </ListGroup>
 

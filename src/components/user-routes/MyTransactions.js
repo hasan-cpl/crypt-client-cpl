@@ -91,7 +91,7 @@ const MyTransactions = () => {
                                             <Button onClick={() => {
                                                 window.open(`https://rinkeby.etherscan.io/tx/${item.hash}`, "_blank");
                                             }}
-                                                color="primary">View in Explorer</Button>
+                                                color="primary">Details</Button>
                                         </td>
                                     </tr>
                                 ))

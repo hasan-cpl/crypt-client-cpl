@@ -13,7 +13,10 @@ const UserDashboard = () => {
     const [metamaskAccount, setMetamaskAccount] = useState('');
     const [user, setUser] = useState(undefined);
     const [userInfo, setUserInfo] = useState();
+
+    const [token, setToken] = useState(undefined);
     //const [userInfo, setUserInfo] = useState();
+    console.log("Account: ",metamaskAccount);
 
     useEffect(() => {
         document.title = "Dashboard"
@@ -122,6 +125,8 @@ const UserDashboard = () => {
                                         >
                                             Connect to Metamask
                                         </Button>
+
+                                        
 
                                         <Button className="tex-center"
                                             onClick={() => {
