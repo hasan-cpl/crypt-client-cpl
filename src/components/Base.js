@@ -25,7 +25,7 @@ const Base = ({ title = "Welcome", children }) => {
                             <Menus />
                         </Col>
                         <Col md={10}>
-                            <div>
+                            <div >
                                 {children}
                             </div>
                         </Col>
