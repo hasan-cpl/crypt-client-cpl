@@ -5,6 +5,7 @@ import {
     Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem,
     NavLink
 } from 'reactstrap';
+import { Link } from "react-router-dom";
 import { doLogout, getCurrentUser, isLoggedIn } from '../auth/auth';
 
 
@@ -82,9 +83,13 @@ const MyNavbar = () => {
                             <Nav navbar>
 
                                 <NavItem>
-                                    <NavLink className='btn btn-outline-success me-2' onClick={logout} to="/logout" >
+                                    <Link className='btn btn-outline-success me-2'
+                                        to="/user/guideline"
+                                        tag="a"
+                                        action
+                                    >
                                         Guidline
-                                    </NavLink>
+                                    </Link>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink className='btn btn-outline-danger' onClick={logout} to="/logout">

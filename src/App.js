@@ -6,6 +6,7 @@ import About from './components/About';
 import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Guideline from './components/user-routes/Guidline';
 import ImportToken from './components/user-routes/ImportToken';
 
 import MyTransactions from './components/user-routes/MyTransactions';
@@ -37,6 +38,7 @@ function App() {
           <Route path='my-transactions' element={<MyTransactions />} />
           <Route path='profile-info' element={<ProfileInfo />} />
           <Route path='import-token' element={<ImportToken />} />
+          <Route path='guideline' element={<Guideline />} />
         </Route>
       </Routes>
     </BrowserRouter>

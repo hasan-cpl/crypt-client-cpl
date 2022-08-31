@@ -17,6 +17,7 @@ const Menus = () => {
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/profile-info"
                     tag="a"
+                    action
                 >
                     Profile Info
                 </Link>
