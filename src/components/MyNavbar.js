@@ -82,12 +82,12 @@ const MyNavbar = () => {
                             <Nav navbar>
 
                                 <NavItem>
-                                    <NavLink >
-                                        {user.username}
+                                    <NavLink className='btn btn-outline-success me-2' onClick={logout} to="/logout" >
+                                        Guidline
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink className='btn' onClick={logout} to="/logout">
+                                    <NavLink className='btn btn-outline-danger' onClick={logout} to="/logout">
                                         Logout
                                     </NavLink>
                                 </NavItem>

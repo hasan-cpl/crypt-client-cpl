@@ -15,6 +15,12 @@ const Menus = () => {
                     Home
                 </Link>
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="/user/profile-info"
+                    tag="a"
+                >
+                    Profile Info
+                </Link>
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/dashboard"
                     tag="a"
                     action
@@ -34,12 +40,6 @@ const Menus = () => {
                 >
                     My Transactions
                 </Link>
-                <Link className="list-group-item list-group-item-action bg-dark text-light"
-                    to="#"
-                    tag="a"
-                >
-                    Contact
-                </Link>
 
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/import-token"
@@ -47,6 +47,15 @@ const Menus = () => {
                 >
                     Import Token
                 </Link>
+
+
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="#"
+                    tag="a"
+                >
+                    Contact
+                </Link>
+
 
 
             </ListGroup>

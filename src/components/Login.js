@@ -50,7 +50,7 @@ const Login = () => {
                 //console.log("login detail is saved to local storage");
 
                 // redirect to user user dashboard page
-                navigate("/user/dashboard", {
+                navigate("/user/profile-info", {
                     replace: true
                 });
             });
