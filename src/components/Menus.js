@@ -26,7 +26,7 @@ const Menus = () => {
                     tag="a"
                     action
                 >
-                    Dashboard
+                    Wallet
                 </Link>
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/send-token"
