@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import { isLoggedIn } from "../auth/auth";
-import MyNavbar from "./MyNavbar";
 import Menus from "./Menus";
+import MyNavbar from "./MyNavbar";
 
 const Base = ({ title = "Welcome", children }) => {
 
@@ -11,7 +11,7 @@ const Base = ({ title = "Welcome", children }) => {
         setLogin(isLoggedIn());
     }, [login]);
 
-    
+
     return (
 
 
@@ -24,11 +24,28 @@ const Base = ({ title = "Welcome", children }) => {
                         <Col md={2} className="bg-dark">
                             <Menus />
                         </Col>
-                        <Col md={10}>
-                            <div >
-                                {children}
-                            </div>
-                        </Col>
+
+
+                        {
+                            (document.title === 'Home') ?
+                                (
+                                    <Col md={10} className="banner d-flex justify-content-center align-items-center">
+                                        <div >
+                                            {children}
+                                        </div>
+
+                                    </Col>
+                                ) : (
+                                    <Col md={10}>
+                                        <div>
+                                            {children}
+                                        </div>
+                                    </Col>
+                                )
+                        }
+
+
+
                     </Row>
                 </div>
             </div>

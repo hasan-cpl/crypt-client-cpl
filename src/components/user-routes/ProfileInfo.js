@@ -74,13 +74,18 @@ const ProfileInfo = () => {
                                                         <div style={{ float: "right" }}>
                                                             <Button outline color="success"
                                                                 onClick={(e) => {
-                                                                    navigator.clipboard.writeText(userInfo.wallet.accountAddress);
-                                                                    setBtn1Text(true);
+                                                                    window.navigator.clipboard
+                                                                        .writeText(userInfo.wallet.accountAddress)
+                                                                        .then(() => {
+                                                                            setBtn1Text(true);
 
-                                                                    setTimeout(() => {
-                                                                        setBtn1Text(false);
-                                                                        e.target.blur();
-                                                                    }, 2500)
+                                                                            setTimeout(() => {
+                                                                                setBtn1Text(false);
+                                                                                e.target.blur();
+                                                                            }, 2500)
+
+                                                                        }).catch((err) => console.log(err));
+
 
                                                                 }}
                                                             >{btn1Text ? ('Copied!') : ('Copy')}</Button>
