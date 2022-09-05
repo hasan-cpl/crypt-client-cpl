@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { tokenTransferABI, TOKEN_ADDRESS } from '../../abi/ABI';
+import { getCurrentUser } from "../../auth/auth";
+import { getCurrentUserInfo } from "../../services/user-service";
 import Base from "../Base";
 import Loader from "../Loader";
 
@@ -11,27 +13,48 @@ const web3 = new Web3('https://eth-rinkeby.alchemyapi.io/v2/ukXBvGXFSkA7R3alQlK8
 const SendToken = () => {
 
 
+    const [userInfo, setUserInfo] = useState();
 
     const [metamaskAccount, setMetamaskAccount] = useState('');
 
-    const [token, setToken] = useState({
+    const [tokenData, setTokenData] = useState({
+        isMetamask: false,
         addressTo: '',
         amount: '',
         message: ''
     });
     const [loader, setLoader] = useState(false);
 
+    useEffect(() => {
+        getCurrentUser().then(async (res) => {
+            //console.log(res.user_id);
+
+            getCurrentUserInfo(res.user_id)
+                .then(userInfo => {
+                    console.log(userInfo);
+                    setUserInfo(userInfo);
+                    //setIsLoading(false);
+                }).catch(err => {
+                    console.log(err);
+                    //setIsLoading(false);
+                });
+
+        });
+    }, [setUserInfo])
+
     const handleChange = async (event, field) => {
-        setToken({ ...token, [field]: event.target.value });
-
-
+        if (field === 'isMetamask') {
+            setTokenData({ ...tokenData, [field]: event.target.checked });
+        } else {
+            setTokenData({ ...tokenData, [field]: event.target.value });
+        }
 
 
 
     };
 
     const resetTokenData = () => {
-        setToken({
+        setTokenData({
             addressTo: '',
             amount: '',
             message: ''
@@ -41,7 +64,74 @@ const SendToken = () => {
     const submitForm = async (event) => {
         event.preventDefault();
         setLoader(true);
-        console.log("token: ", token);
+        console.log("tokenData: ", tokenData);
+
+        if (tokenData.isMetamask) {
+            sendTokenViaMetmask(tokenData);
+        } else {
+            sendTokenViaABI(tokenData);
+        }
+
+
+
+
+
+
+    };
+
+    const sendTokenViaABI = async (tokenData) => {
+
+
+
+        //console.log(userInfo);
+
+        const fromAddress = userInfo.wallet.accountAddress;
+        const privateKey = userInfo.wallet.privateKey;
+
+
+
+        let contract = new web3.eth.Contract(tokenTransferABI, TOKEN_ADDRESS, { from: fromAddress })
+        let amount = web3.utils.toHex(web3.utils.toWei(tokenData.amount)); //1 DEMO Token
+        let data = contract.methods.transfer(tokenData.addressTo, amount).encodeABI();
+
+        let txObj = {
+            gas: web3.utils.toHex(100000),
+            "to": TOKEN_ADDRESS,
+            "value": "0x00",
+            "data": data,
+            "from": fromAddress
+
+        };
+
+        web3.eth.accounts
+            .signTransaction(txObj, privateKey)
+            .then(signedTx => {
+                web3.eth
+                    .sendSignedTransaction(signedTx.rawTransaction)
+                    .then(sendSignTx => {
+                        console.log(sendSignTx);
+                        toast.success('Transaction Successfull')
+                        setLoader(false);
+                    })
+                    .catch(err => {
+                        setLoader(false);
+                        console.log(err)
+                        toast.error('Transaction Failed!')
+                    })
+            })
+            .catch(err => {
+                setLoader(false);
+                console.log(err);
+                toast.error('Transaction Failed!')
+            });
+
+    }
+
+    // Send Token via metamask
+
+    const sendTokenViaMetmask = async (tokenData) => {
+
+
 
         if (typeof window.ethereum !== 'undefined') {
             //console.log('MetaMask is installed!');
@@ -52,14 +142,14 @@ const SendToken = () => {
                 let fromAddress = resAcc.toString();
 
                 const tokenAddress = TOKEN_ADDRESS;
-                const toAddress = token.addressTo;
+                const toAddress = tokenData.addressTo;
                 let contractABI = tokenTransferABI;
 
 
                 //console.log(env.TOKEN_ADDRESS, fromAddress);
 
                 let contract = new web3.eth.Contract(contractABI, tokenAddress, { from: fromAddress })
-                let amount = web3.utils.toHex(web3.utils.toWei(token.amount)); //1 DEMO Token
+                let amount = web3.utils.toHex(web3.utils.toWei(tokenData.amount)); //1 DEMO Token
                 let data = contract.methods.transfer(toAddress, amount).encodeABI();
 
                 let txObj = {
@@ -70,7 +160,7 @@ const SendToken = () => {
                     "from": fromAddress
 
                 };
-                await window.ethereum
+                window.ethereum
                     .request({
                         method: "eth_sendTransaction",
                         params: [txObj],
@@ -79,10 +169,10 @@ const SendToken = () => {
                         console.log(txhash)
                         checkTxConfirmation(txhash)
                             .then(res => {
-                                toast.success('Transaction Successfull')
+                                toast.success('Transaction Successfull');
                                 setLoader(false);
                             }).catch((err) => {
-                                toast.error('Transaction Failed!')
+                                toast.error('Transaction Failed!');
                                 setLoader(false);
                             });
                     }).catch((error) => {
@@ -99,10 +189,7 @@ const SendToken = () => {
             setLoader(false);
         }
 
-
-    };
-
-    // Send Token
+    }
 
     // Transaction confirmation
     function checkTxConfirmation(txhash) {
@@ -129,6 +216,18 @@ const SendToken = () => {
         <Base>
             <Container className="mt-5" >
                 <Form onSubmit={submitForm}>
+                    <div className="text-center">
+                        <h1>Send Token (CPT)</h1>
+                    </div>
+                    <div class="form-check form-switch  d-flex justify-content-end">
+                        <Input class="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheckDefault"
+                            onChange={(e) => handleChange(e, 'isMetamask')}
+                            value={tokenData.isMetamask}
+                        />
+                        <Label class="form-check-label" for="flexSwitchCheckDefault"> Using Metamask</Label>
+                    </div>
 
                     <FormGroup>
                         <Label for="addressTo">Address To</Label>
@@ -137,7 +236,7 @@ const SendToken = () => {
                             id="addressTo"
                             placeholder="0x747F6cFbc9Eb40EDb4ad971e6017fd88439E2e5b"
                             onChange={(e) => handleChange(e, 'addressTo')}
-                            value={token.addressTo}
+                            value={tokenData.addressTo}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -145,9 +244,9 @@ const SendToken = () => {
                         <Input type="number"
                             name="amount"
                             id="amount"
-                            placeholder="1"
+                            placeholder="0"
                             onChange={(e) => handleChange(e, 'amount')}
-                            value={token.amount}
+                            value={tokenData.amount}
 
                         />
                     </FormGroup>
@@ -159,7 +258,7 @@ const SendToken = () => {
                             id="message"
                             placeholder="message"
                             onChange={(e) => handleChange(e, 'message')}
-                            value={token.message}
+                            value={tokenData.message}
 
                         />
                     </FormGroup>

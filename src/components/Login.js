@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Col, Input, Label, Row } from "reactstrap";
@@ -8,6 +8,12 @@ import Base from "./Base";
 import Loader from "./Loader";
 
 const Login = () => {
+
+    const [loader, setLoader] = useState(false);
+    const [formError, setFormError] = useState({
+        usernameErr: '',
+        passwordErr: ''
+    });
 
     useEffect(() => {
         document.title = "Login"
@@ -20,7 +26,7 @@ const Login = () => {
         password: '',
     });
 
-    const [loader, setLoader] = useState(false);
+
 
     const handleChange = (event, property) => {
         setLoginDetail({ ...loginDetail, [property]: event.target.value });
@@ -33,6 +39,7 @@ const Login = () => {
 
         if (loginDetail.username.trim() === '') {
             toast.error("Username is required!");
+            //setFormError({ usernameErr: "Username is required!" });
             return;
         } else if (loginDetail.password.trim() === '') {
             toast.error("Password is required!");
@@ -97,34 +104,41 @@ const Login = () => {
                                                 <form onSubmit={handleFormSubmit}>
                                                     {/*  <!-- Email Input --> */}
                                                     <div className="form-outline mb-4">
+                                                        <Label className="form-label" for="email">Email address</Label>
                                                         <Input type="email"
                                                             id="email"
                                                             className="form-control form-control-lg"
                                                             value={loginDetail.username}
                                                             onChange={(e) => handleChange(e, 'username')}
+                                                            required
                                                         />
-                                                        <Label className="form-label" for="email">Email address</Label>
+                                                        <div class="invalid-feedback">
+                                                            Please provide a valid zip.
+                                                        </div>
                                                     </div>
 
                                                     {/* <!-- Password Input --> */}
                                                     <div className="form-outline mb-4">
+                                                        <Label className="form-label" for="password">Password</Label>
                                                         <Input type="password"
                                                             id="password"
                                                             className="form-control form-control-lg"
                                                             value={loginDetail.password}
                                                             onChange={(e) => handleChange(e, 'password')}
                                                         />
-                                                        <Label className="form-label" for="password">Password</Label>
+                                                        <span class="error text-danger">{formError.passwordErr}</span>
                                                     </div>
 
 
-                                                    <div className="d-flex justify-content-around align-items-center mb-4">
+                                                    <div className="justify-content-around  mb-2">
                                                         {/* <!-- Checkbox --> */}
                                                         <div className="form-check">
                                                             <Input className="form-check-Input" type="checkbox" value="" id="form1Example3" />
                                                             <Label className="form-check-label" for="form1Example3"> Remember me </Label>
+
                                                         </div>
-                                                        <a href="#!">Forgot password?</a>
+
+
                                                     </div>
 
                                                     {/* <!-- Submit button --> */}
@@ -137,6 +151,10 @@ const Login = () => {
 
                                                     <div className="text-center mt-3">
                                                         <span>Not Registered? Signup <Link to="/signup">here</Link></span>
+                                                    </div>
+
+                                                    <div className="text-center mt-3">
+                                                        <a href="#!">Forgot password?</a>
                                                     </div>
 
                                                 </form>

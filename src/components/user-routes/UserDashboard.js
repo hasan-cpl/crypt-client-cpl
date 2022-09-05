@@ -40,7 +40,7 @@ const UserDashboard = () => {
     useEffect(() => {
         document.title = "Dashboard"
 
-        getCurrentUser().then(async (res) => {
+        getCurrentUser().then((res) => {
             //console.log(res.user_id);
             setUser(res);
             setIsLoading(true);
