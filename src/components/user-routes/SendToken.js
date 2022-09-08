@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
-import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, ButtonGroup, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { tokenTransferABI, TOKEN_ADDRESS } from '../../abi/ABI';
 import { getCurrentUser } from "../../auth/auth";
 import { getCurrentUserInfo } from "../../services/user-service";
@@ -14,16 +14,18 @@ const SendToken = () => {
 
 
     const [userInfo, setUserInfo] = useState();
+    //const [isMetamask, setIsMetamask] = useState(false);
+    const [loader, setLoader] = useState(false);
+    const [rSelected, setRSelected] = useState(1);
 
-    const [metamaskAccount, setMetamaskAccount] = useState('');
+    //const [metamaskAccount, setMetamaskAccount] = useState('');
 
     const [tokenData, setTokenData] = useState({
-        isMetamask: false,
         addressTo: '',
         amount: '',
         message: ''
     });
-    const [loader, setLoader] = useState(false);
+
 
     useEffect(() => {
         getCurrentUser().then(async (res) => {
@@ -31,7 +33,7 @@ const SendToken = () => {
 
             getCurrentUserInfo(res.user_id)
                 .then(userInfo => {
-                    console.log(userInfo);
+                    //console.log(userInfo);
                     setUserInfo(userInfo);
                     //setIsLoading(false);
                 }).catch(err => {
@@ -43,13 +45,7 @@ const SendToken = () => {
     }, [setUserInfo])
 
     const handleChange = async (event, field) => {
-        if (field === 'isMetamask') {
-            setTokenData({ ...tokenData, [field]: event.target.checked });
-        } else {
-            setTokenData({ ...tokenData, [field]: event.target.value });
-        }
-
-
+        setTokenData({ ...tokenData, [field]: event.target.value });
 
     };
 
@@ -64,11 +60,14 @@ const SendToken = () => {
     const submitForm = async (event) => {
         event.preventDefault();
         setLoader(true);
-        console.log("tokenData: ", tokenData);
+        //console.log("tokenData: ", tokenData);
+        //console.log("isMetamask: ", isMetamask);
 
-        if (tokenData.isMetamask) {
+        if (rSelected === 2) {
             sendTokenViaMetmask(tokenData);
+            console.log('Metmask');
         } else {
+            console.log('System');
             sendTokenViaABI(tokenData);
         }
 
@@ -136,10 +135,10 @@ const SendToken = () => {
         if (typeof window.ethereum !== 'undefined') {
             //console.log('MetaMask is installed!');
             try {
-                let resAcc = await window.ethereum
-                    .request({ method: 'eth_requestAccounts' });
+                let resAcc = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
                 let fromAddress = resAcc.toString();
+
 
                 const tokenAddress = TOKEN_ADDRESS;
                 const toAddress = tokenData.addressTo;
@@ -205,6 +204,7 @@ const SendToken = () => {
         return checkTxLoop();
     }
 
+    console.log(rSelected);
 
 
 
@@ -218,16 +218,29 @@ const SendToken = () => {
                 <Form onSubmit={submitForm}>
                     <div className="text-center">
                         <h1>Send Token (CPT)</h1>
+                        <div className="mb-2">
+                        <ButtonGroup>
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => setRSelected(1)}
+                                active={rSelected === 1}
+                            >
+                                System
+                            </Button>
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => setRSelected(2)}
+                                active={rSelected === 2}
+                            >
+                                Metamask
+                            </Button>
+                            
+                        </ButtonGroup>
                     </div>
-                    <div class="form-check form-switch  d-flex justify-content-end">
-                        <Input class="form-check-input"
-                            type="checkbox"
-                            id="flexSwitchCheckDefault"
-                            onChange={(e) => handleChange(e, 'isMetamask')}
-                            value={tokenData.isMetamask}
-                        />
-                        <Label class="form-check-label" for="flexSwitchCheckDefault"> Using Metamask</Label>
                     </div>
+                   
 
                     <FormGroup>
                         <Label for="addressTo">Address To</Label>

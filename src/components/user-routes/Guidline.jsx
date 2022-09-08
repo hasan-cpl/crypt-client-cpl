@@ -1,8 +1,12 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Base from "../Base";
 
 
 const Guideline = () => {
+
+    useEffect(() => {
+        document.title = "Guideline"
+    })
 
     return (
         <Base>

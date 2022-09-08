@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { Button, Table } from "reactstrap";
 import Base from "../Base";
 import PageLoader from "../page-loader/PageLoader";
+import { getCurrentUser } from "../../auth/auth";
+import { getCurrentUserInfo } from "../../services/user-service";
 
 
 
@@ -13,30 +15,33 @@ const MyTransactions = () => {
         const web3 = new Web3('https://eth-rinkeby.alchemyapi.io/v2/ukXBvGXFSkA7R3alQlK8Qg8qCBvLql3s');
     
      */
-    const [metamaskAccount, setMetamaskAccount] = useState('');
+    const [account, setAccount] = useState('');
     // Page Loading
     const [isLoading, setIsLoading] = useState(false);
+    const [userInfo, setUserInfo] = useState();
 
     const [transaction, setTransaction] = useState({ result: [] });
+    useEffect(() => {
+        document.title ='Transactions'
+    })
 
     useEffect(() => {
-        document.title = "Dashboard";
-        setIsLoading(true);
 
-        if (typeof window.ethereum !== 'undefined') {
-            //console.log('MetaMask is installed!');
-            window.ethereum.request({ method: 'eth_requestAccounts' })
-                .then(async (res) => {
-                    // Return the address of the wallet
-                    //toast("Metamask connected to account : " + res);
-                    setMetamaskAccount(res[0]);
-                    //console.log(res[0]);
-                    let account = res[0];
 
+        getCurrentUser().then((res) => {
+            //console.log(res.user_id);
+           
+            setIsLoading(true);
+
+            getCurrentUserInfo(res.user_id)
+                .then(async (userInfo) => {
+                    //console.log(userInfo);
+                    setUserInfo(userInfo);
+                    setAccount(userInfo.wallet.accountAddress.toLowerCase());
+
+                    //Get All Trasactions
                     try {
-
-
-                        let url = "https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=" + account + "&startblock=0&endblock=99999999&sort=desc&apikey=FNF91N2DU5MQI9AQFKNNE96FR79DFN65XZ";
+                        let url = "https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=" + userInfo.wallet.accountAddress + "&startblock=0&endblock=99999999&sort=desc&apikey=FNF91N2DU5MQI9AQFKNNE96FR79DFN65XZ";
                         //setTransaction();
                         //console.log(url);
 
@@ -51,21 +56,18 @@ const MyTransactions = () => {
                         console.log(error);
                         setIsLoading(false);
                     }
+
+                }).catch(err => {
+                    console.log(err);
+                    setIsLoading(false);
                 });
-        } else {
-            toast.error("Please Install Metamask!");
-            setIsLoading(false);
-        }
 
-    }, [setTransaction]);
+        });
+        //getUserInfoById(user.user_id);
 
 
 
-
-
-
-
-
+    }, []);
 
 
     return (
@@ -95,7 +97,7 @@ const MyTransactions = () => {
                                     transaction.result.map((item, index) => (
                                         <tr key={index}>
                                             <th scope="row">{index + 1}</th>
-                                            <td>{(metamaskAccount === item.from) ? ("Send") : ("Received")}</td>
+                                            <td>{(account === item.from) ? ("Send") : ("Received")}</td>
                                             <td>{(item.isError !== "0") ? (<p style={{ color: "red" }}>Failed</p>) : (<p>Success</p>)}</td>
                                             <td>{item.hash}</td>
                                             <td className="text-center">
@@ -104,12 +106,14 @@ const MyTransactions = () => {
                                                 }}
                                                     color="primary">Details</Button>
                                             </td>
+                                            
                                         </tr>
                                     ))
     
                                 ) : (
     
-                                    <div></div>
+                                                <div><h1>No Transacton yet!</h1></div>
+                                                
                                 )
                             }
     

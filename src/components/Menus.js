@@ -14,7 +14,7 @@ const Menus = () => {
                 >
                     Home
                 </Link>
-                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                {/* <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/profile-info"
                     tag="a"
                     action
@@ -22,24 +22,19 @@ const Menus = () => {
                     Profile Info
                 </Link>
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
-                    to="/user/dashboard"
+                    to="/user/wallet"
                     tag="a"
                     action
                 >
                     Wallet
                 </Link>
+
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/send-token"
                     tag="a"
                     action
                 >
                     Send Token
-                </Link>
-                <Link className="list-group-item list-group-item-action bg-dark text-light"
-                    to="/user/my-transactions"
-                    tag="a"
-                >
-                    My Transactions
                 </Link>
 
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
@@ -48,8 +43,32 @@ const Menus = () => {
                 >
                     Import Token
                 </Link>
+                
+                */}
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="/user/dashboard"
+                    tag="a"
+                    action
+                >
+                    Dashboard
+                </Link>
 
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="/user/send-token"
+                    tag="a"
+                    action
+                >
+                    Send Token
+                </Link>
+                
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="/user/my-transactions"
+                    tag="a"
+                >
+                    My Transactions
+                </Link>
 
+                
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="#"
                     tag="a"
