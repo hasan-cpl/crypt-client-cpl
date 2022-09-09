@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Button } from "reactstrap";
 import { tokenBalanceABI, TOKEN_ADDRESS } from '../../abi/ABI';
 import { getCurrentUser } from "../../auth/auth";
+import { DISCORD_URL } from "../../services/helper";
 import { getCurrentUserInfo } from "../../services/user-service";
 import Base from "../Base";
 import PageLoader from "../page-loader/PageLoader";
@@ -15,6 +16,12 @@ const logo = require('../../images/logo.png');
 const Web3 = require('web3');
 const web3 = new Web3('https://eth-rinkeby.alchemyapi.io/v2/ukXBvGXFSkA7R3alQlK8Qg8qCBvLql3s');
 let contract = new web3.eth.Contract(tokenBalanceABI, TOKEN_ADDRESS);
+
+// Discord
+/* const DiscordOauth2 = require("discord-oauth2");
+const oauth = new DiscordOauth2(); */
+
+
 
 const UserDashboard = () => {
 
@@ -140,6 +147,13 @@ const UserDashboard = () => {
 
     }
 
+    const handleMergeWithDiscord = () => {
+
+       
+
+        
+    }
+
 
     return (
         <Base>
@@ -224,6 +238,11 @@ const UserDashboard = () => {
                                                         }}
                                                     >Add Test Ether</Button>
                                                     <Button className="m-2 btn-info" onClick={handleImportToken}>Import Token to Metamask</Button>
+                                                    <Button className="m-2 btn-info"
+                                                        onClick={() => {
+                                                            window.open(DISCORD_URL, "_blank");
+                                                        }}
+                                                    >Merge Discord</Button>
                                                 </div>
                                             </div>
                                         </div>

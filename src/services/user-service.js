@@ -20,3 +20,13 @@ export const getCurrentUserInfo = (id) => {
         .catch(err => console.log(err));
     
 }
+
+export const addDiscordUserInformation = (id, discordInfo) => {
+    
+    console.log('id', id);
+    console.log('discord',discordInfo);
+    
+    return myAxios.put(`/api/v1/discord-info/${id}`, discordInfo)
+        .then(res => res)
+        .catch(err => console.error(err));
+}
