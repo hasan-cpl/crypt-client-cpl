@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ListGroup } from "reactstrap";
 
-const Menus = () => {
+const Menus = ({ user }) => {
+
+    //console.log(user);
+    //const [role, setRole] = useState('')
+
+
+
     return (
 
         <div>
@@ -60,7 +66,7 @@ const Menus = () => {
                 >
                     Send Token
                 </Link>
-                
+
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/user/my-transactions"
                     tag="a"
@@ -68,7 +74,19 @@ const Menus = () => {
                     My Transactions
                 </Link>
 
-                
+                {
+                    (user.role === 'Admin') ? (
+                        <Link className="list-group-item list-group-item-action bg-dark text-light"
+                            to="/admin/all-user"
+                            tag="a"
+                        >
+                            All User
+                        </Link>
+                    ): ('')
+
+                }
+
+
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="#"
                     tag="a"

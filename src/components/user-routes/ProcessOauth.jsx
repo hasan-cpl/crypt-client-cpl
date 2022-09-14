@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button } from 'reactstrap';
@@ -17,7 +16,7 @@ const ProcessOauth = () => {
 
     //const [successText, setSuccessText] = useState('Failed to Merge with Discord');
 
-    
+
 
     getCurrentUser().then((currentUser) => {
 
@@ -30,7 +29,7 @@ const ProcessOauth = () => {
 
         oauth.tokenRequest({
             clientId: "1017375475305304114",
-            clientSecret: "0LKzPQf5YiL51OtfAJZEE--iMxV3WWCp",
+            clientSecret: "eK0Ma_tLgshOTidXpxKuk3DmpRcOUtz0",
             code: code,
             scope: "identify email guilds",
             grantType: "authorization_code",
@@ -44,9 +43,10 @@ const ProcessOauth = () => {
                     addDiscordUserInformation(currentUserId, discordUser)
                         .then(res => {
                             //console.log(res);
+                            toast.success('Successfuly Merged With Discord!');
                         }).catch(err => {
                             console.error(err);
-                            toast.success('Successfully Merged With Discord');
+                            toast.error('Can not Merged With Discord');
                         })
                     /* discordInfo.discordId = discordUser.id;
                     discordInfo.username = discordUser.username;

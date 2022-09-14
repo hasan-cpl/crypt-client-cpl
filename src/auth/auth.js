@@ -34,6 +34,51 @@ export const isExpired = () => {
 
 }
 
+// decode token
+
+export const getCurrentUserDecodeData = () => {
+
+    let data = localStorage.getItem("data");
+
+    const jsonData = JSON.parse(data);
+    //console.log("data2: ", jsonData.access_token);
+    const payloadBase64 = jsonData.access_token.split('.')[1];
+    const decodedJson = Buffer.from(payloadBase64, 'base64').toString();
+    const decoded = JSON.parse(decodedJson)
+
+    return decoded;
+
+}
+
+export const isAdmin = () => {
+
+    let data = localStorage.getItem("data");
+
+    if (data != null) {
+        const jsonData = JSON.parse(data);
+        //console.log("data2: ", jsonData.access_token);
+        const payloadBase64 = jsonData.access_token.split('.')[1];
+        const decodedJson = Buffer.from(payloadBase64, 'base64').toString();
+        const decoded = JSON.parse(decodedJson);
+
+        const role = decoded.role;
+        if (role === 'Admin') {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+
+
+
+
+
+
+}
+
 
 // doLogin => data => set to loaclStorage
 
@@ -51,7 +96,7 @@ export const doLogout = (next) => {
 
 // Get Current user
 
-export const getCurrentUser = async() => {
+export const getCurrentUser = async () => {
     if (isLoggedIn()) {
         return await JSON.parse(localStorage.getItem("data"));
     } else {

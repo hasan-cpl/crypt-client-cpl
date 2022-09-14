@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
-import { Button, Table } from "reactstrap";
-import Base from "../Base";
-import PageLoader from "../page-loader/PageLoader";
+import { Button, Container, Table } from "reactstrap";
 import { getCurrentUser } from "../../auth/auth";
 import { getCurrentUserInfo } from "../../services/user-service";
+import Base from "../Base";
+import PageLoader from "../page-loader/PageLoader";
 
 
 
@@ -22,7 +21,7 @@ const MyTransactions = () => {
 
     const [transaction, setTransaction] = useState({ result: [] });
     useEffect(() => {
-        document.title ='Transactions'
+        document.title = 'Transactions'
     })
 
     useEffect(() => {
@@ -30,7 +29,7 @@ const MyTransactions = () => {
 
         getCurrentUser().then((res) => {
             //console.log(res.user_id);
-           
+
             setIsLoading(true);
 
             getCurrentUserInfo(res.user_id)
@@ -74,54 +73,54 @@ const MyTransactions = () => {
         <Base>
             {
                 isLoading ? (
-                    <PageLoader/>
+                    <PageLoader />
                 ) : (
                     <div className="container">
-                    <Table className="mt-3"
-                        bordered hover responsive
-                    >
-                        <thead>
-                            <tr>
-                                <th>Nonce</th>
-                                <th>Send/Received</th>
-                                <th>Status</th>
-                                <th>TxHash</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-    
-                                (transaction.result.length > 0) ? (
-    
-                                    transaction.result.map((item, index) => (
-                                        <tr key={index}>
-                                            <th scope="row">{index + 1}</th>
-                                            <td>{(account === item.from) ? ("Send") : ("Received")}</td>
-                                            <td>{(item.isError !== "0") ? (<p style={{ color: "red" }}>Failed</p>) : (<p>Success</p>)}</td>
-                                            <td>{item.hash}</td>
-                                            <td className="text-center">
-                                                <Button onClick={() => {
-                                                    window.open(`https://rinkeby.etherscan.io/tx/${item.hash}`, "_blank");
-                                                }}
-                                                    color="primary">Details</Button>
-                                            </td>
-                                            
-                                        </tr>
-                                    ))
-    
-                                ) : (
-    
-                                                <div><h1>No Transacton yet!</h1></div>
-                                                
-                                )
-                            }
-    
-                        </tbody>
-                    </Table>
-                </div>
+                        <Table className="mt-3"
+                            bordered hover responsive
+                        >
+                            <thead>
+                                <tr>
+                                    <th>Nonce</th>
+                                    <th>Send/Received</th>
+                                    <th>Status</th>
+                                    <th>TxHash</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+
+                                    (transaction.result.length > 0) ? (
+
+                                        transaction.result.map((item, index) => (
+                                            <tr key={index}>
+                                                <th scope="row">{index + 1}</th>
+                                                <td>{(account === item.from) ? ("Send") : ("Received")}</td>
+                                                <td>{(item.isError !== "0") ? (<p style={{ color: "red" }}>Failed</p>) : (<p>Success</p>)}</td>
+                                                <td>{item.hash}</td>
+                                                <td className="text-center">
+                                                    <Button onClick={() => {
+                                                        window.open(`https://rinkeby.etherscan.io/tx/${item.hash}`, "_blank");
+                                                    }}
+                                                        color="primary">Details</Button>
+                                                </td>
+
+                                            </tr>
+                                        ))
+
+                                    ) : (
+
+                                        <Container className="text-center"><h1>No Transaction yet!</h1></Container>
+
+                                    )
+                                }
+
+                            </tbody>
+                        </Table>
+                    </div>
                 )
-           }
+            }
         </Base>
     );
 };

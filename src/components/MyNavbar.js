@@ -1,12 +1,11 @@
 
 import React, { useEffect, useState } from 'react';
-import { NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
 import {
     Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem,
     NavLink
 } from 'reactstrap';
-import { Link } from "react-router-dom";
-import { doLogout, getCurrentUser, isLoggedIn } from '../auth/auth';
+import { doLogout, isLoggedIn } from '../auth/auth';
 
 
 const MyNavbar = () => {
@@ -19,11 +18,11 @@ const MyNavbar = () => {
 
     // User managment
     const [login, setLogin] = useState(false);
-    const [user, setUser] = useState(undefined);
+    //const [user, setUser] = useState(undefined);
 
     useEffect(() => {
         setLogin(isLoggedIn());
-        setUser(getCurrentUser());
+        //setUser(getCurrentUser());
 
     }, [login]);
 
@@ -81,7 +80,6 @@ const MyNavbar = () => {
                     {
                         login ? (
                             <Nav navbar>
-
                                 <NavItem>
                                     <Link className='btn btn-outline-success me-2'
                                         to="/user/guideline"

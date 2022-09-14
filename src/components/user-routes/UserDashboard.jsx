@@ -31,7 +31,7 @@ const UserDashboard = () => {
     const [transaction, setTransaction] = useState({ result: [] });
 
 
-    const [user, setUser] = useState(undefined);
+    //const [user, setUser] = useState(undefined);
     const [userInfo, setUserInfo] = useState();
     const [ethBalance, setEthBalance] = useState();
     const [cptTokenBalance, setCptTokenBalance] = useState();
@@ -48,7 +48,7 @@ const UserDashboard = () => {
 
         getCurrentUser().then((res) => {
             //console.log(res.user_id);
-            setUser(res);
+            //setUser(res);
             setIsLoading(true);
 
             getCurrentUserInfo(res.user_id)
@@ -106,7 +106,7 @@ const UserDashboard = () => {
 
 
 
-    }, [setUser, setUserInfo]);
+    }, [setUserInfo]);
 
     //console.log(userInfo);
 
@@ -146,14 +146,6 @@ const UserDashboard = () => {
         }
 
     }
-
-    const handleMergeWithDiscord = () => {
-
-       
-
-        
-    }
-
 
     return (
         <Base>
@@ -220,8 +212,8 @@ const UserDashboard = () => {
                                                                 )
 
                                                             ) : (
-                                                                <div>
-                                                                    <h1>No Transaction Yet</h1>
+                                                                <div className="container text-center">
+                                                                    <h1>No Transaction Yet!</h1>
                                                                 </div>
                                                             )
                                                     }

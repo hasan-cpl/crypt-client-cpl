@@ -28,6 +28,9 @@ const SendToken = () => {
 
 
     useEffect(() => {
+
+        document.title = "Send Token";
+
         getCurrentUser().then(async (res) => {
             //console.log(res.user_id);
 
@@ -209,9 +212,7 @@ const SendToken = () => {
 
 
 
-    useEffect(() => {
-        document.title = "Send Token"
-    });
+    
     return (
         <Base>
             <Container className="mt-5" >
