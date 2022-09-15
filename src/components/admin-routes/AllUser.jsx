@@ -25,17 +25,17 @@ const AllUser = () => {
                     const discordUser = res.filter(user => user.discordInfo != null);
                     //console.log(discordUser);
                     setUsers(discordUser);
-                    
+
                 } else {
                     setUsers(res);
                 }
-                
+
                 setIsLoading(false);
             }).catch(err => {
                 console.error(err)
                 setIsLoading(false);
             })
-    }, [setUsers,rSelected])
+    }, [setUsers, rSelected])
 
 
 
@@ -76,7 +76,7 @@ const AllUser = () => {
                                             <th>Name</th>
                                             <th>Username</th>
                                             <th>Wallet</th>
-                                            <th>Action</th>
+                                            <th>Role</th>
                                         </tr>
                                     </thead>
                                     {
@@ -90,18 +90,26 @@ const AllUser = () => {
                                                             <td>{user.name}</td>
                                                             <td>{user.username}</td>
                                                             <td className="text-truncate">{user.wallet.accountAddress}</td>
-                                                            <td></td>
+                                                            <td>{user.role}</td>
                                                         </tr>
                                                     ))
                                                 }
 
                                             </tbody>
-                                        ) : ('')
+                                        ) : (
+                                            <div className="container text-center m-5">
+                                                <h1>Data Not Found!</h1>
+                                            </div>
+                                        )
                                     }
 
                                 </Table>
                             </div>
-                        ) : ('')
+                        ) : (
+                            <div className="container text-center m-5">
+                                <h1>Data Not Found!</h1>
+                            </div>
+                        )
                     )
                 }
 

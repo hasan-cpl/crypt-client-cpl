@@ -32,12 +32,15 @@ const Base = ({ title = "Welcome", children }) => {
 
             <div>
                 <MyNavbar />
-                <div className="container-fluid vh-100 d-flex flex-column">
+                <div className="container-fluid vh-100">
                     <Row className="h-100">
                         <Col md={2} className="bg-dark">
                             <Menus user={user} />
                         </Col>
-                        {
+                        <Col md={10} className="align-items-center">
+                            {children}
+                        </Col>
+                        {/*                         {
                             (document.title === 'Home') ?
                                 (
                                     <Col md={10} className="banner d-flex justify-content-center align-items-center">
@@ -53,7 +56,7 @@ const Base = ({ title = "Welcome", children }) => {
                                         </div>
                                     </Col>
                                 )
-                        }
+                        } */}
                     </Row>
                 </div>
             </div>

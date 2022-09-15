@@ -154,7 +154,7 @@ const UserDashboard = () => {
                     userInfo ? (
                         <section className="h-100 gradient-custom-2">
                             <div className="container py-2 h-100">
-                                <div className="row d-flex justify-content-center align-items-center h-100">
+                                <div className="row d-flex flex-column align-items-center ">
                                     <div className="col col-lg-9 col-xl-7">
                                         <div className="card">
                                             <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: ' #000', height: '200px' }}>

@@ -5,6 +5,7 @@ import './App.css';
 import About from './components/About';
 import AdminRoute from './components/admin-routes/AdminRoute';
 import AllUser from './components/admin-routes/AllUser';
+import DiscordReactions from './components/admin-routes/DiscordReactions';
 import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -38,14 +39,14 @@ function App() {
           <Route path='process-discord-oauth' element={<ProcessOauth />} />
           <Route path='guideline' element={<Guideline />} />
         </Route>
-
         <Route path='/admin' element={<AdminRoute />}>
-        <Route path='all-user' element={<AllUser />} />
-      </Route>
+          <Route path='all-user' element={<AllUser />} />
+          <Route path='discord-reactions' element={<DiscordReactions />} />
+        </Route>
 
       </Routes>
 
-     
+
     </BrowserRouter>
   );
 }

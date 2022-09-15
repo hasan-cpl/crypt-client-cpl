@@ -34,6 +34,6 @@ export const addDiscordUserInformation = (id, discordInfo) => {
 export const getAllUser = () => {
 
     return myAxios.get('/api/v1/users')
-        .then(res => res.data)
+        .then(res => res.data.data)
         .catch(err => console.error(err));
 }

@@ -76,13 +76,21 @@ const Menus = ({ user }) => {
 
                 {
                     (user.role === 'Admin') ? (
-                        <Link className="list-group-item list-group-item-action bg-dark text-light"
-                            to="/admin/all-user"
-                            tag="a"
-                        >
-                            All User
-                        </Link>
-                    ): ('')
+                        <ListGroup>
+                            <Link className="list-group-item list-group-item-action bg-dark text-light"
+                                to="/admin/all-user"
+                                tag="a"
+                            >
+                                All User
+                            </Link>
+                            <Link className="list-group-item list-group-item-action bg-dark text-light"
+                                to="/admin/discord-reactions"
+                                tag="a"
+                            >
+                               Discord Reactions
+                            </Link>
+                        </ListGroup>
+                    ) : ('')
 
                 }
 

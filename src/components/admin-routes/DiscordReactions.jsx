@@ -1,11 +1,14 @@
 import Base from "../Base";
+import ReactionTable from "./ReactionTable";
+
+
 
 const DiscordReactions = () => {
     return (
         <Base>
-            <div>
-                <h1>This is About page</h1>
-
+            <div className="d-flex flex-column align-items-center">
+                <h1>Discord Reaction List</h1>
+                <ReactionTable />
             </div>
         </Base>
     );
