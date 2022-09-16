@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Button } from "reactstrap";
 import { tokenBalanceABI, TOKEN_ADDRESS } from '../../abi/ABI';
 import { getCurrentUser } from "../../auth/auth";
-import { DISCORD_URL } from "../../services/helper";
+import { DISCORD_URL, LOCALHOST_DISCORD_URL } from "../../services/helper";
 import { getCurrentUserInfo } from "../../services/user-service";
 import Base from "../Base";
 import PageLoader from "../page-loader/PageLoader";
@@ -230,9 +230,16 @@ const UserDashboard = () => {
                                                         }}
                                                     >Add Test Ether</Button>
                                                     <Button className="m-2 btn-info" onClick={handleImportToken}>Import Token to Metamask</Button>
-                                                    <Button className="m-2 btn-info"
+                                                    <Button className="m-2 btn" color="primary"
                                                         onClick={() => {
-                                                            window.open(DISCORD_URL, "_blank");
+                                                            //console.log(window.location.hostname);
+                                                            if (window.location.hostname === 'localhost') {
+                                                                window.open(LOCALHOST_DISCORD_URL, "_blank");
+                                                                
+                                                            } else {
+                                                                window.open(DISCORD_URL, "_blank");
+                                                            }
+                                                            //
                                                         }}
                                                     >Merge Discord</Button>
                                                 </div>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button } from 'reactstrap';
 import { getCurrentUser } from '../../auth/auth';
-import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URL } from '../../services/helper';
+import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET } from '../../services/helper';
 import { addDiscordUserInformation } from '../../services/user-service';
 import Base from "../Base";
 
@@ -34,7 +34,7 @@ const ProcessOauth = () => {
             scope: "identify email guilds",
             grantType: "authorization_code",
 
-            redirectUri: DISCORD_REDIRECT_URL,
+            redirectUri: `${window.location.origin}/user/process-discord-oauth`,
         }).then(res => {
             oauth.getUser(res.access_token)
                 .then(discordUser => {

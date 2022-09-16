@@ -49,7 +49,7 @@ const ReactionTable = () => {
 
     useEffect(() => {
         document.title = 'Reactions'
-    })
+    });
 
     useEffect(() => {
         fetchData(1, perPage);
