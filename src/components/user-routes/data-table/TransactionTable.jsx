@@ -37,7 +37,7 @@ function TransactionTable() {
                         //console.log(transaction);
                         setTransaction(res.data);
                         setIsLoading(false);
-                        console.log(res.data);
+                        //console.log(res.data);
                     } catch (error) {
                         console.log(error);
                         setIsLoading(false);
@@ -56,7 +56,8 @@ function TransactionTable() {
     const columns = [
         {
             name: <h5>Nonce</h5>,
-            selector: row =><div className='text-center'> {row.nonce}</div>
+            selector: row => <div className='text-center'> {row.nonce}</div>,
+            
         },
         {
             name: <h5>Send/Received</h5>,

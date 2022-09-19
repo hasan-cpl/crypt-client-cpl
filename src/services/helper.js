@@ -9,8 +9,8 @@ export const DISCORD_URL = 'https://discord.com/api/oauth2/authorize?client_id=1
 
 export const DISCORD_CLIENT_ID = '1017375475305304114';
 export const DISCORD_CLIENT_SECRET = 'IOIZwiEa1GigNyYUGRy91foVX1EZbgQ8';
-//export const BASE_URL = "http://localhost:4000";
-export const BASE_URL = "https://api-cpl-crypt.herokuapp.com";
+export const BASE_URL = "http://localhost:4000";
+//export const BASE_URL = "https://api-cpl-crypt.herokuapp.com";
 
 export const myAxios = axios.create({
     baseURL: BASE_URL,

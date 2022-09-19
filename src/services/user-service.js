@@ -9,7 +9,8 @@ export const signUp = (user) => {
 export const loginUser = (loginDetail) => {
 
     return myAxios.post("/api/v1/signin", loginDetail)
-        .then((response) => response.data);
+        .then((response) => response.data)
+        //.catch(err => console.log(err));
 
 }
 
@@ -36,4 +37,10 @@ export const getAllUser = () => {
     return myAxios.get('/api/v1/users')
         .then(res => res.data.data)
         .catch(err => console.error(err));
+}
+
+export const getAllUserPagination = (page, per_page) => {
+    return myAxios.get(`/api/v1/users?page=${page}&pageSize=${per_page}`)
+    .then(res => res.data.data)
+    .catch(err => console.error(err));
 }

@@ -231,17 +231,18 @@ const UserDashboard = () => {
                                                     >Add Test Ether</Button>
                                                     <Button className="m-2 btn-info" onClick={handleImportToken}>Import Token to Metamask</Button>
                                                     <Button className="m-2 btn" color="primary"
+                                                        disabled={(userInfo.discordInfo != null) ? true : false}
                                                         onClick={() => {
                                                             //console.log(window.location.hostname);
                                                             if (window.location.hostname === 'localhost') {
                                                                 window.open(LOCALHOST_DISCORD_URL, "_blank");
-                                                                
+
                                                             } else {
                                                                 window.open(DISCORD_URL, "_blank");
                                                             }
                                                             //
                                                         }}
-                                                    >Merge Discord</Button>
+                                                    >{(userInfo.discordInfo != null) ? 'Already Merged' : 'Merge Discord'}</Button>
                                                 </div>
                                             </div>
                                         </div>
