@@ -37,7 +37,7 @@ const Base = ({ title = "Welcome", children }) => {
                         <Col md={2} className="bg-dark">
                             <Menus user={user} />
                         </Col>
-                        <Col md={10} className="align-items-center">
+                        <Col md={10} className="align-items-center ps-0">
                             {children}
                         </Col>
                         {/*                         {

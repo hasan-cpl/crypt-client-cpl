@@ -9,7 +9,7 @@ import Loader from "./Loader";
 const Signup = () => {
 
 
- 
+
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
@@ -177,16 +177,17 @@ const Signup = () => {
                                                     </div>
 
                                                     {
-                                                        loader ? (<Loader name = "Registaring"/>) : (
+                                                        loader ? (<Loader name="Registering" />) : (
                                                             <div className="d-flex justify-content-center ">
                                                                 <Button type="submit" color="primary" size="lg" block>Register</Button>
                                                             </div>
-                                                        )}
+                                                        )
+                                                    }
 
                                                 </Form>
 
                                                 <div className="text-center mt-3">
-                                                    <span>Allready Registered? Signin <Link to="/login">here</Link></span>
+                                                    <span>Already Registered? Sign in <Link to="/login">here</Link></span>
                                                 </div>
 
                                             </div>

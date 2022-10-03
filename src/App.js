@@ -4,8 +4,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import About from './components/About';
 import AdminRoute from './components/admin-routes/AdminRoute';
-import AllUser from './components/admin-routes/AllUser';
-import DiscordReactions from './components/admin-routes/DiscordReactions';
+import DiscordReactions from './components/admin-routes/discord/DiscordReactions';
+import AllUser from './components/admin-routes/users/AllUser';
+import AllVote from './components/admin-routes/vote/AllVote';
+import CreateVote from './components/admin-routes/vote/CreateVote';
+import VoteDetails from './components/admin-routes/vote/VoteDetails';
 import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -42,6 +45,9 @@ function App() {
         <Route path='/admin' element={<AdminRoute />}>
           <Route path='all-user' element={<AllUser />} />
           <Route path='discord-reactions' element={<DiscordReactions />} />
+          <Route path='votes' element={<AllVote />} />
+          <Route path='create-vote' element={<CreateVote />} />
+          <Route path='vote-details' element={<VoteDetails />} />
         </Route>
 
       </Routes>

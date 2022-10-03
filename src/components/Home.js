@@ -8,7 +8,7 @@ const Home = () => {
     });
     return (
         <Base >
-            <section className="banner h-100">
+            <section className="banner vh-100">
                 <div className="container h-100">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col col-lg-9 col-xl-7">

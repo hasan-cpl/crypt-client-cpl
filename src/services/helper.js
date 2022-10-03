@@ -15,3 +15,5 @@ export const BASE_URL = "https://api-cpl-crypt.herokuapp.com";
 export const myAxios = axios.create({
     baseURL: BASE_URL,
 });
+
+export const WEB_3_PROVIDER_URL = 'https://goerli.infura.io/v3/ac8787f3da3942dd8c897f43984c5cab';

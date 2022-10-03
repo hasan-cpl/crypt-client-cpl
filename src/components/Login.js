@@ -99,7 +99,7 @@ const Login = () => {
                                         <Col md={6}>
                                             <div className="col-md col-lg col-xl offset-xl-1">
                                                 <div className="text-center mb-3">
-                                                    <h1>Signin</h1>
+                                                    <h1>Sign in</h1>
                                                 </div>
                                                 <form onSubmit={handleFormSubmit}>
                                                     {/*  <!-- Email Input --> */}
@@ -143,7 +143,7 @@ const Login = () => {
 
                                                     {/* <!-- Submit button --> */}
                                                     {
-                                                        loader ? (<Loader name="Signin" />) : (
+                                                        loader ? (<Loader name="Sign in" />) : (
                                                             <div className="text-center">
                                                                 <Button type="submit" color="primary" size="lg" block>Sign in</Button>
                                                             </div>)

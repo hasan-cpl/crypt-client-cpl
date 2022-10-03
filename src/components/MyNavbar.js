@@ -40,7 +40,7 @@ const MyNavbar = () => {
 
     return (
         <div>
-            <Navbar color='dark' dark expand="md" className='px-4'>
+            <Navbar color='dark' dark expand className='px-4'>
                 <NavbarBrand tag={RouterNavLink} to="/">
                     <img className='me-2'
                         alt="logo"

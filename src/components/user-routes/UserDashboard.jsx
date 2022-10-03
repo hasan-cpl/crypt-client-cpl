@@ -9,7 +9,7 @@ import { DISCORD_URL, LOCALHOST_DISCORD_URL } from "../../services/helper";
 import { getCurrentUserInfo } from "../../services/user-service";
 import Base from "../Base";
 import PageLoader from "../page-loader/PageLoader";
-import Transaction from '../Transaction';
+import Transaction from './Transaction';
 
 
 const logo = require('../../images/logo.png');

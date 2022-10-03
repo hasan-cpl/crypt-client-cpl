@@ -67,18 +67,12 @@ const SendToken = () => {
         //console.log("isMetamask: ", isMetamask);
 
         if (rSelected === 2) {
-            sendTokenViaMetmask(tokenData);
-            console.log('Metmask');
+            sendTokenViaMetamask(tokenData);
+            console.log('Metamask');
         } else {
             console.log('System');
             sendTokenViaABI(tokenData);
         }
-
-
-
-
-
-
     };
 
     const sendTokenViaABI = async (tokenData) => {
@@ -112,7 +106,7 @@ const SendToken = () => {
                     .sendSignedTransaction(signedTx.rawTransaction)
                     .then(sendSignTx => {
                         console.log(sendSignTx);
-                        toast.success('Transaction Successfull')
+                        toast.success('Transaction Successful')
                         setLoader(false);
                     })
                     .catch(err => {
@@ -131,7 +125,7 @@ const SendToken = () => {
 
     // Send Token via metamask
 
-    const sendTokenViaMetmask = async (tokenData) => {
+    const sendTokenViaMetamask = async (tokenData) => {
 
 
 
@@ -167,11 +161,11 @@ const SendToken = () => {
                         method: "eth_sendTransaction",
                         params: [txObj],
                     })
-                    .then((txhash) => {
-                        console.log(txhash)
+                    .then(txhash => {
+                        console.log(txhash);
                         checkTxConfirmation(txhash)
                             .then(res => {
-                                toast.success('Transaction Successfull');
+                                toast.success('Transaction Successful');
                                 setLoader(false);
                             }).catch((err) => {
                                 toast.error('Transaction Failed!');

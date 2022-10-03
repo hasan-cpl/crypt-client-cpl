@@ -11,7 +11,7 @@ const Menus = ({ user }) => {
 
     return (
 
-        <div>
+        <div >
             <ListGroup >
                 <Link className="list-group-item list-group-item-action bg-dark text-light"
                     to="/"
@@ -88,6 +88,12 @@ const Menus = ({ user }) => {
                                 tag="a"
                             >
                                Discord Reactions
+                            </Link>
+                            <Link className="list-group-item list-group-item-action bg-dark text-light"
+                                to="/admin/votes"
+                                tag="a"
+                            >
+                               All Vote
                             </Link>
                         </ListGroup>
                     ) : ('')
