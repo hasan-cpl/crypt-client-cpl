@@ -213,7 +213,7 @@ const CreateVote = () => {
                                 textDecoration: 'none',
                                 background: '#292929'
                             }}
-                            to="/admin/vote"
+                            to="/admin/votes"
                             action
                             tag="a"
                         >

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Web3 from 'web3';
@@ -10,6 +11,8 @@ const web3 = new Web3(WEB_3_PROVIDER_URL);
 const AllVote = () => {
 
   const votingContract = new web3.eth.Contract(contractABI, contractAddress);
+  let [votes, setVotes] = useState([]);
+ 
 
   useEffect(() => {
     //const getAllProposal = await votingContract.methods.getAllVote().call();
@@ -17,12 +20,14 @@ const AllVote = () => {
     votingContract.methods.getAllVote().call()
       .then(res => {
         console.log(res);
+        let arr = [...res];
+        setVotes(arr.reverse());
       }).catch(err => {
         console.error(err);
       })
 
 
-  })
+  },[])
 
   return (
     <Base>
@@ -39,18 +44,11 @@ const AllVote = () => {
 
 
           <div className="grid-vote mt-3 overflow-auto" data-bs-spy="scroll">
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
-            <VoteCard />
+            {
+              votes.length > 0 ? (
+                votes.map( vote => <VoteCard key={vote.proposalNumber} vote = {vote}/>)
+              ) : <>No Vote Found!!</>
+            }
 
           </div>
 
