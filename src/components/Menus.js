@@ -74,6 +74,8 @@ const Menus = ({ user }) => {
                     My Transactions
                 </Link>
 
+
+
                 {
                     (user.role === 'Admin') ? (
                         <ListGroup>
@@ -87,18 +89,20 @@ const Menus = ({ user }) => {
                                 to="/admin/discord-reactions"
                                 tag="a"
                             >
-                               Discord Reactions
+                                Discord Reactions
                             </Link>
-                            <Link className="list-group-item list-group-item-action bg-dark text-light"
-                                to="/admin/votes"
-                                tag="a"
-                            >
-                               All Vote
-                            </Link>
+
                         </ListGroup>
                     ) : ('')
 
                 }
+
+                <Link className="list-group-item list-group-item-action bg-dark text-light"
+                    to="/user/votes"
+                    tag="a"
+                >
+                    All Vote
+                </Link>
 
 
                 <Link className="list-group-item list-group-item-action bg-dark text-light"

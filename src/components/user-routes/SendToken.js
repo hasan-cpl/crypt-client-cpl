@@ -3,12 +3,13 @@ import { toast } from 'react-toastify';
 import { Button, ButtonGroup, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { tokenTransferABI, TOKEN_ADDRESS } from '../../abi/ABI';
 import { getCurrentUser } from "../../auth/auth";
+import { WEB_3_PROVIDER_URL } from "../../services/helper";
 import { getCurrentUserInfo } from "../../services/user-service";
 import Base from "../Base";
 import Loader from "../Loader";
 
 const Web3 = require('web3');
-const web3 = new Web3('https://eth-rinkeby.alchemyapi.io/v2/ukXBvGXFSkA7R3alQlK8Qg8qCBvLql3s');
+const web3 = new Web3(WEB_3_PROVIDER_URL);
 
 const SendToken = () => {
 

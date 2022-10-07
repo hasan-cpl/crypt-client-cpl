@@ -41,13 +41,15 @@ function App() {
           <Route path='my-transactions' element={<MyTransactions />} />
           <Route path='process-discord-oauth' element={<ProcessOauth />} />
           <Route path='guideline' element={<Guideline />} />
+          <Route path="vote/:id" element={<VoteDetails />} />
+          <Route path='votes' element={<AllVote />} />
+
+          <Route path='vote-details' element={<VoteDetails />} />
         </Route>
         <Route path='/admin' element={<AdminRoute />}>
           <Route path='all-user' element={<AllUser />} />
           <Route path='discord-reactions' element={<DiscordReactions />} />
-          <Route path='votes' element={<AllVote />} />
           <Route path='create-vote' element={<CreateVote />} />
-          <Route path='vote-details' element={<VoteDetails />} />
         </Route>
 
       </Routes>

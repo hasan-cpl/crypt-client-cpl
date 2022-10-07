@@ -1,25 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { FcOrganization } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 
-const VoteCard = ({ vote }) => {
+const VoteCard = ({ vote,totalUser }) => {
 
     const navigate = useNavigate();
+    //console.log(totalUser);
+    
 
 
     const calculateTimeLeft = () => {
         //let year = new Date().getFullYear();
-        let difference = vote.endTime - Date.now();
-        //console.log(difference);
+
+        let seconds = (vote.endTime - Date.now()) / 1000;
+
 
         let timeLeft = {};
 
-        if (difference > 0) {
+        if (seconds > 0) {
+
+            seconds = Number(seconds);
+        
+            //console.log(seconds);
+
             timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                seconds: Math.floor((difference / 1000) % 60)
+                days: Math.floor(seconds / (3600 * 24)),
+                hours: Math.floor(seconds % (3600 * 24) / 3600),
+                minutes: Math.floor(seconds % 3600 / 60),
+                seconds:  Math.floor(seconds % 60)
             };
         }
 
@@ -32,15 +40,15 @@ const VoteCard = ({ vote }) => {
         setTimeout(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
-    });
+    }); 
 
 
     const yesVote = vote.totalVote > 0 ? (
-        (Number(vote.yesVoteCount) / Number(vote.totalVote)) * 100
+       ( (Number(vote.yesVoteCount) / Number(totalUser)) * 100).toFixed(2)
     ) : (0);
 
     const noVote = vote.totalVote > 0 ? (
-        (Number(vote.noVoteCount) / Number(vote.totalVote)) * 100
+        ((Number(vote.noVoteCount) / Number(totalUser)) * 100).toFixed(2)
     ) : (0)
 
     return (
@@ -51,9 +59,7 @@ const VoteCard = ({ vote }) => {
             }}
             onClick={() => {
 
-                navigate("/admin/vote-details", {
-                    replace: true
-                })
+                navigate(`/user/vote/${vote.proposalNumber}`)
 
             }}>
             <div class="card-body">
@@ -71,7 +77,7 @@ const VoteCard = ({ vote }) => {
                         <span>{`${yesVote}%`}</span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style={{ width: yesVote }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-success" role="progressbar" style={{ width: `${yesVote}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     {/* No vote progress bar */}
                     <div className="d-flex justify-content-between">
@@ -79,7 +85,7 @@ const VoteCard = ({ vote }) => {
                         <span>{`${noVote}%`}</span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style={{ width: noVote }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-success" role="progressbar" style={{ width: `${noVote}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
 
@@ -87,11 +93,13 @@ const VoteCard = ({ vote }) => {
                 <div className="text-center mt-2">
                     {timeLeft.hours || timeLeft.minutes || timeLeft.seconds ? (
                         <h5>
-                            <span>{timeLeft.hours}</span>
+                            <span>{timeLeft.days}D</span>
                             <span>:</span>
-                            <span>{timeLeft.minutes}</span>
+                            <span>{timeLeft.hours}H</span>
                             <span>:</span>
-                            <span>{timeLeft.seconds}</span>
+                            <span>{timeLeft.minutes}M</span>
+                            <span>:</span>
+                            <span>{timeLeft.seconds}S</span>
                         </h5>
                     ) : (
                         <div>

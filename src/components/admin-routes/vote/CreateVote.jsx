@@ -44,7 +44,7 @@ const CreateVote = () => {
         });
     }, [setUserInfo])
 
-    console.log(userInfo);
+   // console.log(userInfo);
 
     const handleCreateVote = async (event) => {
         //const getAllProposal = await votingContract;
@@ -65,10 +65,16 @@ const CreateVote = () => {
             return;
         }
 
+        let milliseconds = measure * convertSeconds(unit);
+
+        console.log(milliseconds);
+
+
+
         setLoader(true);
 
         let data = votingContract.methods
-            .addVote(proposal, Date.now(), Date.now() + measure * 3600)
+            .addVote(proposal, Date.now(), Date.now() + milliseconds)
             .encodeABI();
         const fromAddress = userInfo.wallet.accountAddress;
         const privateKey = userInfo.wallet.privateKey;
@@ -103,7 +109,7 @@ const CreateVote = () => {
                 toast.error('Transaction Failed!!')
             });
 
-
+ 
 
 
         /*  if (typeof window.ethereum !== 'undefined') {
@@ -178,24 +184,17 @@ const CreateVote = () => {
 
     }
 
+    const convertSeconds = (unit) => {
 
+        if (unit === 'Minute') {
+            return 60 * 1000;
+        } else if (unit === 'Hour') {
+            return 60 * 60 * 1000;
+        } else if (unit === 'Day') {
+            return 24 * 60 * 60 * 1000;
+        }
 
-
-
-    // Transaction confirmation
-    function checkTxConfirmation(txhash) {
-        let checkTxLoop = () => {
-            return window.ethereum.request({
-                method: 'eth_getTransactionReceipt',
-                params: [txhash]
-            }).then(result => {
-                if (result != null) return 'Confirmed!'
-                else return checkTxLoop();
-            })
-        };
-        return checkTxLoop();
     }
-
 
 
     return (
