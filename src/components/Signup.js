@@ -29,7 +29,7 @@ const Signup = () => {
     // Handle Change
     const handleChang = (event, property) => {
 
-        console.log(property);
+        //console.log(property);
         // dynamic setting the values 
         if (property === "isAgree") {
             setUser({ ...user, [property]: event.target.checked });
@@ -49,7 +49,7 @@ const Signup = () => {
         //console.log(user);
     }, [user]);
 
-    // For reseting data
+    // For resetting data
     const resetData = () => {
         setUser({
             name: '',
@@ -70,15 +70,18 @@ const Signup = () => {
         // Call Server api For Sending Data
 
         signUp(user).then((res) => {
-
-            console.log(res);
-            toast.success("Signup Successfull!");
-            resetData();
-            setLoader(false);
-            navigate("/login", {
-                replace: true
-            });
-
+            //console.log(res);
+            if (res.code === 201) {
+                toast.success("Signup Successful!");
+                resetData();
+                setLoader(false);
+                navigate("/login", {
+                    replace: true
+                });
+            }else{
+                setLoader(false);
+                toast.error("Signup failed!")
+            }
 
         }).catch((error) => {
             console.log("Error: ", error);
@@ -87,7 +90,7 @@ const Signup = () => {
 
 
 
-        console.log(user);
+        //console.log(user);
 
 
     }

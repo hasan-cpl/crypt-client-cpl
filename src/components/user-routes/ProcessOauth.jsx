@@ -43,7 +43,7 @@ const ProcessOauth = () => {
                     addDiscordUserInformation(currentUserId, discordUser)
                         .then(res => {
                             //console.log(res);
-                            toast.success('Successfuly Merged With Discord!');
+                            toast.success('Successfully Merged With Discord!');
                         }).catch(err => {
                             console.error(err);
                             toast.error('Can not Merged With Discord');

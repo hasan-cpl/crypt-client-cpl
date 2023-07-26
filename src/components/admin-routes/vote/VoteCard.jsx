@@ -85,7 +85,7 @@ const VoteCard = ({ vote,totalUser }) => {
                         <span>{`${noVote}%`}</span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style={{ width: `${noVote}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style={{ width: `${noVote}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
 

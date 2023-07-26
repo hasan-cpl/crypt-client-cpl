@@ -86,7 +86,7 @@ const MyNavbar = () => {
                                         tag="a"
                                         action
                                     >
-                                        Guidline
+                                        Guideline
                                     </Link>
                                 </NavItem>
                                 <NavItem>

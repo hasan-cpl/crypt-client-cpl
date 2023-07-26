@@ -1,39 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component';
+import { BASE_URL, BOT_BASE_URL } from '../../../services/helper';
 import PageLoader from '../../page-loader/PageLoader';
 
 
-const columns = [
-    {
-        name: "Server",
-        selector: row => row.server
-    },
-    {
-        name: "Channel",
-        selector: row => row.channel
-    },
-    {
-        name: "Sender",
-        selector: row => row.sender
-    },
-    {
-        name: "Message",
-        selector: row => row.message
-    },
-    {
-        name: "Time",
-        selector: row => row.time
-    },
-    {
-        name: "Date",
-        selector: row => row.date
-    },
-    {
-        name: "Reaction",
-        cell: row => <>{row.counter.map(r => `${r.key} ${r.count}`)}</>
-    },
-]
+
 
 const ReactionTable = () => {
 
@@ -43,9 +15,9 @@ const ReactionTable = () => {
 
 
     //const [totalRows, setTotalRows] = useState(0);
-    const [perPage, setPerPage] = useState(2);
+    const [perPage, setPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
-    
+
 
     useEffect(() => {
         document.title = 'Reactions'
@@ -61,10 +33,10 @@ const ReactionTable = () => {
 
         try {
             const response = await axios
-                .get(`https://discord-to-mongo-app.herokuapp.com/api/v2/discordmsg?pageSize=${per_page}&page=${page}`);
+                .get(`${BASE_URL}/api/v1/discord-messages?pageSize=${per_page}&page=${page}`);
             setReactions(response.data);
             //console.log(response.data);
-            
+
 
             isLoading(false);
 
@@ -84,11 +56,51 @@ const ReactionTable = () => {
         setPerPage(newPerPage);
     }
 
+    const convertTimestampToTime = (unixTimestamp) => {
+        const date = new Date(parseInt(unixTimestamp));
+        //console.log(date.toLocaleTimeString("default"));
+        return date.toLocaleTimeString("default");
+
+    }
+
+    const convertTimestampToDate = (unixTimestamp) => {
+        const date = new Date(parseInt(unixTimestamp));
+       // console.log(date.toLocaleDateString("default"));
+        return date.toLocaleDateString("default");
+
+    }
 
 
-  
-
-
+    const columns = [
+        {
+            name: "Server",
+            selector: row => row.server
+        },
+        {
+            name: "Channel",
+            selector: row => row.channel
+        },
+        {
+            name: "Sender",
+            selector: row => row.sender
+        },
+        {
+            name: "Message",
+            selector: row => row.message
+        },
+        {
+            name: "Time",
+            cell: row => <>{convertTimestampToTime(row.createdTimestamp)}</>
+        },
+        {
+            name: "Date",
+            cell: row => convertTimestampToDate(row.createdTimestamp)
+        },
+         {
+            name: "Reaction",
+            cell: row => <>{row.counter.map(r => `${r.key} ${r.count}`)}</>
+        }, 
+    ]
 
 
 
@@ -97,14 +109,14 @@ const ReactionTable = () => {
         loading ? (<PageLoader />) : (
             <DataTable
                 columns={columns}
-                data={reactions.data}
+                data={reactions.discordMsgs}
                 pagination
                 paginationServer
                 paginationTotalRows={reactions.total}
                 paginationPerPage={perPage}
                 paginationDefaultPage={currentPage}
                 onChangeRowsPerPage={handlePerRowsChange}
-                paginationRowsPerPageOptions = {[2, 4, 6, 8, 10]}
+                paginationRowsPerPageOptions={[12, 24, 36, 48, 60]}
                 // paginationComponentOptions={{
                 //     noRowsPerPage: true
                 // }}

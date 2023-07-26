@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "reactstrap";
+import { ETHERSCAN_URL } from "../../utils/constants";
 
 const Transaction = ({ tx }) => {
 
@@ -13,7 +14,7 @@ const Transaction = ({ tx }) => {
                 backgroundColor: '#eee'
             }}
                 onClick={() => {
-                    window.open(`https://rinkeby.etherscan.io/tx/${tx.hash}`, "_blank");
+                    window.open(`${ETHERSCAN_URL}${tx.hash}`, "_blank");
                 }}
             >
                 <div className="" >

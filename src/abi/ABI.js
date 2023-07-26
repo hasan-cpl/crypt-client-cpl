@@ -59,5 +59,5 @@ export const tokenBalanceABI = [
     }
   ];
 
-export const TOKEN_ADDRESS = "0x0877e37a200836ba682b0fc2e7d660edabbd6e27";
+export const TOKEN_ADDRESS = "0xB8C89D77522Cf6f3BDcB50768ac2B845FFAdD269";
 

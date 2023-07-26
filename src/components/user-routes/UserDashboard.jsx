@@ -5,23 +5,17 @@ import { toast } from 'react-toastify';
 import { Button } from "reactstrap";
 import { tokenBalanceABI, TOKEN_ADDRESS } from '../../abi/ABI';
 import { getCurrentUser } from "../../auth/auth";
-import { DISCORD_URL, LOCALHOST_DISCORD_URL } from "../../services/helper";
+import { DISCORD_URL, LOCALHOST_DISCORD_URL, WEB_3_PROVIDER_URL } from "../../services/helper";
 import { getCurrentUserInfo } from "../../services/user-service";
+import { TESTNET_FAUCET_LINK } from "../../utils/constants";
 import Base from "../Base";
 import PageLoader from "../page-loader/PageLoader";
 import Transaction from './Transaction';
 
-
 const logo = require('../../images/logo.png');
 const Web3 = require('web3');
-const web3 = new Web3('https://eth-rinkeby.alchemyapi.io/v2/ukXBvGXFSkA7R3alQlK8Qg8qCBvLql3s');
+const web3 = new Web3(WEB_3_PROVIDER_URL);
 let contract = new web3.eth.Contract(tokenBalanceABI, TOKEN_ADDRESS);
-
-// Discord
-/* const DiscordOauth2 = require("discord-oauth2");
-const oauth = new DiscordOauth2(); */
-
-
 
 const UserDashboard = () => {
 
@@ -36,18 +30,14 @@ const UserDashboard = () => {
     const [ethBalance, setEthBalance] = useState();
     const [cptTokenBalance, setCptTokenBalance] = useState();
 
-
-
     useEffect(() => {
         document.title = "Dashboard";
     });
 
     // Get Current User Info
     useEffect(() => {
-
-
         getCurrentUser().then((res) => {
-            //console.log(res.user_id);
+            //console.log(res);
             //setUser(res);
             setIsLoading(true);
 
@@ -55,7 +45,6 @@ const UserDashboard = () => {
                 .then(async (userInfo) => {
                     //console.log(userInfo);
                     setUserInfo(userInfo);
-
 
                     web3.eth.getBalance(userInfo.wallet.accountAddress)
                         .then(balance => {
@@ -78,9 +67,9 @@ const UserDashboard = () => {
                             console.log(err);
                         });
 
-                    //Get All Trasactions
+                    //Get All Transactions
                     try {
-                        let url = "https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=" + userInfo.wallet.accountAddress + "&startblock=0&endblock=99999999&sort=desc&apikey=FNF91N2DU5MQI9AQFKNNE96FR79DFN65XZ";
+                        let url = "https://api-goerli.etherscan.io/api?module=account&action=txlist&address=" + userInfo.wallet.accountAddress + "&startblock=0&endblock=99999999&sort=desc&apikey=FNF91N2DU5MQI9AQFKNNE96FR79DFN65XZ";
                         //setTransaction();
                         //console.log(url);
 
@@ -126,7 +115,7 @@ const UserDashboard = () => {
                     params: {
                         type: 'ERC20',
                         options: {
-                            address: '0x0877e37a200836ba682b0fc2e7d660edabbd6e27',
+                            address: '0xB8C89D77522Cf6f3BDcB50768ac2B845FFAdD269',
                             symbol: 'CPT',
                             decimals: 18,
                             image: tokenImgUrl,
@@ -217,29 +206,25 @@ const UserDashboard = () => {
                                                                 </div>
                                                             )
                                                     }
-
-
-
                                                 </div>
-
-
                                                 <div className="mt-4 d-flex justify-content-center">
                                                     <Button className="m-2 btn-dark btn-dark"
                                                         onClick={() => {
-                                                            window.open("https://rinkebyfaucet.com/", "_blank");
+                                                            window.open(TESTNET_FAUCET_LINK, "_blank");
                                                         }}
                                                     >Add Test Ether</Button>
                                                     <Button className="m-2 btn-info" onClick={handleImportToken}>Import Token to Metamask</Button>
                                                     <Button className="m-2 btn" color="primary"
                                                         disabled={(userInfo.discordInfo != null) ? true : false}
                                                         onClick={() => {
+                                                            //window.open(DISCORD_URL, "_blank");
                                                             //console.log(window.location.hostname);
                                                             if (window.location.hostname === 'localhost') {
                                                                 window.open(LOCALHOST_DISCORD_URL, "_blank");
 
                                                             } else {
                                                                 window.open(DISCORD_URL, "_blank");
-                                                            }
+                                                            } 
                                                             //
                                                         }}
                                                     >{(userInfo.discordInfo != null) ? 'Already Merged' : 'Merge Discord'}</Button>

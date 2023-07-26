@@ -44,7 +44,7 @@ const CreateVote = () => {
         });
     }, [setUserInfo])
 
-   // console.log(userInfo);
+    // console.log(userInfo);
 
     const handleCreateVote = async (event) => {
         //const getAllProposal = await votingContract;
@@ -76,6 +76,7 @@ const CreateVote = () => {
         let data = votingContract.methods
             .addVote(proposal, Date.now(), Date.now() + milliseconds)
             .encodeABI();
+
         const fromAddress = userInfo.wallet.accountAddress;
         const privateKey = userInfo.wallet.privateKey;
 
@@ -90,12 +91,15 @@ const CreateVote = () => {
         web3.eth.accounts
             .signTransaction(txObj, privateKey)
             .then(signedTx => {
+                console.log(signedTx);
                 web3.eth
                     .sendSignedTransaction(signedTx.rawTransaction)
                     .then(sendSignTx => {
                         console.log(sendSignTx);
-                        toast.success('Transaction Successful')
+                        toast.success('Proposal created Successfully!')
                         setLoader(false);
+                        
+
                     })
                     .catch(err => {
                         setLoader(false);
@@ -109,7 +113,7 @@ const CreateVote = () => {
                 toast.error('Transaction Failed!!')
             });
 
- 
+
 
 
         /*  if (typeof window.ethereum !== 'undefined') {
@@ -212,7 +216,7 @@ const CreateVote = () => {
                                 textDecoration: 'none',
                                 background: '#292929'
                             }}
-                            to="/admin/votes"
+                            to="/user/votes"
                             action
                             tag="a"
                         >

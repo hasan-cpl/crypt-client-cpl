@@ -4,6 +4,7 @@ import DataTable from 'react-data-table-component'
 import { Button } from 'reactstrap'
 import { getCurrentUser } from '../../../auth/auth'
 import { getCurrentUserInfo } from '../../../services/user-service'
+import { ETHERSCAN_URL } from '../../../utils/constants'
 import PageLoader from '../../page-loader/PageLoader'
 
 
@@ -25,9 +26,9 @@ function TransactionTable() {
                     //setUserInfo(userInfo);
                     setAccount(userInfo.wallet.accountAddress.toLowerCase());
 
-                    //Get All Trasactions
+                    //Get All Transactions
                     try {
-                        let url = "https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=" + userInfo.wallet.accountAddress + "&startblock=0&endblock=99999999&sort=desc&apikey=FNF91N2DU5MQI9AQFKNNE96FR79DFN65XZ";
+                        let url = "https://api-goerli.etherscan.io/api?module=account&action=txlist&address=" + userInfo.wallet.accountAddress + "&startblock=0&endblock=99999999&sort=desc&apikey=FNF91N2DU5MQI9AQFKNNE96FR79DFN65XZ";
                         //setTransaction();
                         //console.log(url);
 
@@ -80,7 +81,7 @@ function TransactionTable() {
         {
             name: <h5>Action</h5>,
             cell: row => <Button color='primary' onClick={() => {
-                window.open(`https://rinkeby.etherscan.io/tx/${row.hash}`, "_blank")
+                window.open(`${ETHERSCAN_URL}${row.hash}`, "_blank")
             }}>Details</Button>
         },
     ]

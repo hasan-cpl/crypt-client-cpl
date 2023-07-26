@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FcPrevious } from "react-icons/fc";
 import { Link, useParams } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { Button } from "reactstrap";
 import Web3 from "web3";
 import { getCurrentUser } from "../../../auth/auth";
@@ -10,6 +10,7 @@ import { getCurrentUserInfo } from "../../../services/user-service";
 import { contractABI, contractAddress } from "../../../utils/constants";
 import Base from "../../Base";
 import PageLoader from "../../page-loader/PageLoader";
+import VoterTable from "./VoterTable";
 
 
 const web3 = new Web3(WEB_3_PROVIDER_URL);
@@ -17,6 +18,7 @@ const web3 = new Web3(WEB_3_PROVIDER_URL);
 const VoteDetails = () => {
 
     const params = useParams();
+    const pNumber = params.id;
     let votingContract = new web3.eth.Contract(contractABI, contractAddress);
 
     const [vote, setVote] = useState({});
@@ -27,7 +29,7 @@ const VoteDetails = () => {
     //console.log(params.id);
 
     useEffect(() => {
-        document.title = "Vote";
+        document.title = "Vote details";
     });
 
 
@@ -64,7 +66,7 @@ const VoteDetails = () => {
 
     useEffect(() => {
 
-        document.title = "Send Token";
+
 
         getCurrentUser().then(async (res) => {
             //console.log(res.user_id);
@@ -83,101 +85,190 @@ const VoteDetails = () => {
     }, [setUserInfo]);
 
     const yesVote = vote.totalVote > 0 ? (
-        ( (Number(vote.yesVoteCount) / Number(totalUser)) * 100).toFixed(2)
-     ) : (0);
+        ((Number(vote.yesVoteCount) / Number(totalUser)) * 100).toFixed(2)
+    ) : (0);
 
     //console.log(vote);
     //console.log(totalUser);
 
-    const handleYesBtn = (event) => {
+    /*  const handleYesBtn = (event) => {
+ 
+         setLoader(true);
+         console.log(vote);
+         // 1 for no vote
+         let data = votingContract.methods.toVote(vote.proposalNumber, 1)
+             .encodeABI();
+ 
+         const fromAddress = userInfo.wallet.accountAddress;
+         const privateKey = userInfo.wallet.privateKey;
+ 
+         let txObj = {
+             gas: web3.utils.toHex(300000),
+             "to": contractAddress,
+             "value": "0x00",
+             "data": data,
+             "from": fromAddress
+         };
+ 
+         web3.eth.accounts
+             .signTransaction(txObj, privateKey)
+             .then(signedTx => {
+                 web3.eth
+                     .sendSignedTransaction(signedTx.rawTransaction)
+                     .then(sendSignTx => {
+                         console.log(sendSignTx);
+                         toast.success('Transaction Successful')
+                         setLoader(false);
+                     })
+                     .catch(err => {
+                         setLoader(false);
+                         console.log(err)
+                         toast.error('Transaction Failed!')
+                     })
+             })
+             .catch(err => {
+                 setLoader(false);
+                 console.log(err);
+                 toast.error('Transaction Failed!!')
+             });
+ 
+ 
+         console.log("Yes");
+ 
+     }
+     const handleNoBtn = (event) => {
+         setLoader(true);
+ 
+        // 0 for no vote
+         let data = votingContract.methods.toVote(vote.proposalNumber, 0)
+             .encodeABI();
+ 
+         const fromAddress = userInfo.wallet.accountAddress;
+         const privateKey = userInfo.wallet.privateKey;
+ 
+         let txObj = {
+             gas: web3.utils.toHex(300000),
+             "to": contractAddress,
+             "value": "0x00",
+             "data": data,
+             "from": fromAddress
+         };
+ 
+         web3.eth.accounts
+             .signTransaction(txObj, privateKey)
+             .then(signedTx => {
+                 web3.eth
+                     .sendSignedTransaction(signedTx.rawTransaction)
+                     .then(sendSignTx => {
+                         console.log(sendSignTx);
+                         toast.success('Transaction Successful')
+                         setLoader(false);
+                     })
+                     .catch(err => {
+                         setLoader(false);
+                         console.log(err)
+                         toast.error('Transaction Failed!')
+                     })
+             })
+             .catch(err => {
+                 setLoader(false);
+                 console.log(err);
+                 toast.error('Transaction Failed!!')
+             });
+ 
+ 
+         console.log("No");
+     } */
+
+    //console.log(userInfo);
+
+    function refreshPage(){ 
+        window.location.reload(); 
+    }
+
+    const handleBtn = (click) => {
 
         setLoader(true);
-        console.log(vote);
-        let data = votingContract.methods.toVote(vote.proposalNumber, 1)
-            .encodeABI();
 
-        const fromAddress = userInfo.wallet.accountAddress;
-        const privateKey = userInfo.wallet.privateKey;
+        console.log(click);
+        //console.log(userInfo);
+        let proposal = {
+            proposalNumber: params.id,
+            voters: [
+                {
+                    address: userInfo.wallet.accountAddress,
+                    username: userInfo.username,
+                    voterName: userInfo.name,
+                    voteType: click
 
-        let txObj = {
-            gas: web3.utils.toHex(300000),
-            "to": contractAddress,
-            "value": "0x00",
-            "data": data,
-            "from": fromAddress
-        };
+                }
+            ]
 
-        web3.eth.accounts
-            .signTransaction(txObj, privateKey)
-            .then(signedTx => {
-                web3.eth
-                    .sendSignedTransaction(signedTx.rawTransaction)
-                    .then(sendSignTx => {
-                        console.log(sendSignTx);
-                        toast.success('Transaction Successful')
-                        setLoader(false);
-                    })
-                    .catch(err => {
-                        setLoader(false);
-                        console.log(err)
-                        toast.error('Transaction Failed!')
-                    })
+        }
+
+        console.log(proposal);
+        // check you are vote this proposal
+        myAxios.get(`/api/v1/proposal/is-voted?proposalNumber=${proposal.proposalNumber}&accountAddress=${userInfo.wallet.accountAddress}`)
+            .then((response) => {
+                console.log(response.data.isVoted);
+                //setLoader(false);
+                
+                if (response.data.isVoted) {
+                    toast.warning(response.data.message);
+                    //console.log(response.data.message);
+                    setLoader(false);
+                } else {
+
+                    let data = votingContract.methods.toVote(vote.proposalNumber, click)
+                        .encodeABI();
+
+                    const fromAddress = userInfo.wallet.accountAddress;
+                    const privateKey = userInfo.wallet.privateKey;
+
+                    let txObj = {
+                        gas: web3.utils.toHex(300000),
+                        "to": contractAddress,
+                        "value": "0x00",
+                        "data": data,
+                        "from": fromAddress
+                    };
+
+                    web3.eth.accounts
+                        .signTransaction(txObj, privateKey)
+                        .then(signedTx => {
+                            web3.eth
+                                .sendSignedTransaction(signedTx.rawTransaction)
+                                .then(sendSignTx => {
+                                    console.log(sendSignTx);
+                                    //toast.success('Transaction Successful')
+                                    //setLoader(false);
+                                    myAxios.post('/api/v1/proposal/add-voter', proposal)
+                                        .then(res => {
+                                            toast.success(res.data.message);
+                                            setLoader(false);
+                                            refreshPage();
+                                        })
+                                })
+                                .catch(err => {
+                                    setLoader(false);
+                                    console.log(err)
+                                    toast.error('Transaction Failed!')
+                                })
+                        })
+                        .catch(err => {
+                            setLoader(false);
+                            console.log(err);
+                            toast.error('Transaction Failed!!')
+                        });
+
+
+                } 
+ 
+            }).catch(err => {
+                console.error(err);
             })
-            .catch(err => {
-                setLoader(false);
-                console.log(err);
-                toast.error('Transaction Failed!!')
-            });
-
-
-        console.log("Yes");
 
     }
-    const handleNoBtn = (event) => {
-        setLoader(true);
-
-        let data = votingContract.methods.toVote(vote.proposalNumber, 0)
-            .encodeABI();
-
-        const fromAddress = userInfo.wallet.accountAddress;
-        const privateKey = userInfo.wallet.privateKey;
-
-        let txObj = {
-            gas: web3.utils.toHex(300000),
-            "to": contractAddress,
-            "value": "0x00",
-            "data": data,
-            "from": fromAddress
-        };
-
-        web3.eth.accounts
-            .signTransaction(txObj, privateKey)
-            .then(signedTx => {
-                web3.eth
-                    .sendSignedTransaction(signedTx.rawTransaction)
-                    .then(sendSignTx => {
-                        console.log(sendSignTx);
-                        toast.success('Transaction Successful')
-                        setLoader(false);
-                    })
-                    .catch(err => {
-                        setLoader(false);
-                        console.log(err)
-                        toast.error('Transaction Failed!')
-                    })
-            })
-            .catch(err => {
-                setLoader(false);
-                console.log(err);
-                toast.error('Transaction Failed!!')
-            });
-
-
-        console.log("No");
-    }
-
-
-
 
 
     return (
@@ -187,7 +278,7 @@ const VoteDetails = () => {
                     : (
                         <div className="h-100 vote-background">
                             <div className="container">
-                                <div className="bg-dark p-2 d-flex justify-content-between align-items-center">
+                                <div className="bg-dark p-2 d-md-flex justify-content-between align-items-center">
                                     <h1 className="text-white d-inline-block">Voting</h1>
                                 </div>
 
@@ -251,13 +342,14 @@ const VoteDetails = () => {
                                                                         <div className="mt-3 d-md-flex justify-content-between align-items-center">
                                                                             <Button className="me-2 w-100"
                                                                                 color="success"
-                                                                                onClick={handleYesBtn}
+                                                                                //onClick={handleYesBtn}
+                                                                                onClick={() => handleBtn(1)}
                                                                             >✔️ Yes</Button>
 
                                                                             <Button className="ms-2 w-100"
                                                                                 id="exampleModal"
                                                                                 color="danger"
-                                                                                onClick={handleNoBtn}
+                                                                                onClick={() => handleBtn(0)}
                                                                             >❌ No</Button>
 
                                                                         </div>
@@ -271,13 +363,13 @@ const VoteDetails = () => {
 
                                                     ) : (
                                                         <div className="text-center">
-                                                        {
-                                                            yesVote >= 51 ?
-                                                                (<h5 className="text-success">Success ✔️</h5>)
-                                                                : (<h5 className="text-danger">Rejected ❌</h5>)
-                                                        }
-                            
-                                                    </div>
+                                                            {
+                                                                yesVote >= 51 ?
+                                                                    (<h5 className="text-success">Success ✔️</h5>)
+                                                                    : (<h5 className="text-danger">Rejected ❌</h5>)
+                                                            }
+
+                                                        </div>
                                                     )
                                                 }
 
@@ -297,6 +389,7 @@ const VoteDetails = () => {
 
                                         </div>
                                     </div>
+                                    <VoterTable proposalNumber={pNumber}/>
 
                                 </div>
                             </div>

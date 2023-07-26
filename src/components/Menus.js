@@ -92,6 +92,20 @@ const Menus = ({ user }) => {
                                 Discord Reactions
                             </Link>
 
+                            <Link className="list-group-item list-group-item-action bg-dark text-light"
+                                to="/admin/discord-interactions"
+                                tag="a"
+                            >
+                                Interactions Count
+                            </Link>
+
+                            <Link className="list-group-item list-group-item-action bg-dark text-light"
+                                to="/admin/token-disburse"
+                                tag="a"
+                            >
+                                Token Disburse
+                            </Link>
+
                         </ListGroup>
                     ) : ('')
 

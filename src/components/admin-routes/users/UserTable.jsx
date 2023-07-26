@@ -19,7 +19,7 @@ function UserTable() {
 
         fetchData(1, perPage);
 
-    }, [rSelected,perPage,setUsers,]);
+    }, [rSelected,perPage,setUsers]);
 
     const fetchData = (page, per_page) => {
 
@@ -85,7 +85,8 @@ function UserTable() {
     const columns = [
         {
             name: <h5>SL</h5>,
-            selector: row => row.index
+            cell: (row, index) => index + 1,
+            grow: 0,
         },
         {
             name: <h5>Name</h5>,
@@ -107,7 +108,7 @@ function UserTable() {
     ]
 
     return (
-        <>
+        <div className='container'>
 
             <div className="mt-3">
                 <ButtonGroup>
@@ -141,8 +142,7 @@ function UserTable() {
                             paginationPerPage={perPage}
                             paginationDefaultPage={currentPage}
                             onChangeRowsPerPage={handlePerRowsChange}
-                            paginationRowsPerPageOptions={[5, 10, 15, 20, 50]}
-                            
+                            paginationRowsPerPageOptions={[5, 10, 15, 20, 50]}        
                             onChangePage={handlePageChange}
 
                         />
@@ -151,7 +151,7 @@ function UserTable() {
             </div>
 
 
-        </>
+        </div>
     )
 }
 
